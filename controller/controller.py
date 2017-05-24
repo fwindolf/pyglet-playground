@@ -2,31 +2,29 @@ from pyglet import window
 from model.object import Point, Rectangle, FilledRectangle
 
 class Controller:
-    def __init__(self, renderer=None):
+    def __init__(self):
+        self.renderer = None
+
+    def set_renderer(self, renderer=None):
         self.renderer = renderer
 
-    @window.event
     def on_mouse_press(self, x, y, button, modifiers):
         print ("Mouse pressed", x, y)
 
-    @window.event
     def on_mouse_drag(self, x, y, dx, dy, buttons, modifiers):
         print ("Mouse dragged", x, y, dx, dy)
 
-    @window.event
     def on_key_press(self, symbol, modifiers):
         print("Key pressed", symbol)
 
-    @window.event
     def on_key_release(self, symbol, modifiers):
         print("Key released", symbol)
 
 
 class RandomObjectController(Controller):
-    def __init__(self, renderer=None):
-        super(RandomObjectController, self).__init__(renderer)
+    def __init__(self):
+        super(RandomObjectController, self).__init__()
 
-    @window.event
     def on_mouse_press(self, x, y, button, modifiers):
         rnd = random.randint(0, 5)
         # create different shapes
