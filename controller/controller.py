@@ -1,24 +1,31 @@
+import logging as log
+import random
 from pyglet import window
-from model.object import Point, Rectangle, FilledRectangle
+from model.object import Point, Rectangle, FilledRectangle, Circle, FilledCircle
+from model.color import Color
 
 class Controller:
     def __init__(self):
         self.renderer = None
+        self.logger = log.getLogger("Controller")
+        self.logger.debug("Controller superclass created")
 
-    def set_renderer(self, renderer=None):
+    def set_renderer(self, renderer):
         self.renderer = renderer
+        self.logger.debug("Controller has new renderer")
 
     def on_mouse_press(self, x, y, button, modifiers):
-        print ("Mouse pressed", x, y)
+        self.logger.debug("Controller acting on mouse press", x, y)
 
     def on_mouse_drag(self, x, y, dx, dy, buttons, modifiers):
-        print ("Mouse dragged", x, y, dx, dy)
+        self.logger.debug("Controller acting on mouse drag", x, y, dx, dy)
 
     def on_key_press(self, symbol, modifiers):
-        print("Key pressed", symbol)
+        self.logger.debug("Controller acts on key press", smybol)
 
     def on_key_release(self, symbol, modifiers):
-        print("Key released", symbol)
+        self.logger.debug("Controller acts on key released", symbol)
+
 
 
 class RandomObjectController(Controller):
@@ -26,7 +33,8 @@ class RandomObjectController(Controller):
         super(RandomObjectController, self).__init__()
 
     def on_mouse_press(self, x, y, button, modifiers):
-        rnd = random.randint(0, 5)
+        self.logger.debug("RandomObjectController acts on mouse press", x, y)
+        rnd = random.randint(0, 3)
         # create different shapes
         obj = {
             0 : Circle(x, y, radius=random.randint(1, 40), color=Color.random(),
@@ -34,10 +42,10 @@ class RandomObjectController(Controller):
             1 : FilledCircle(x, y, radius=random.randint(1, 40),
                 color=Color.random()),
             2 : Rectangle(x, y, random.randint(40, 200),
-                random.randint(20, 200), color=random_color(),
+                random.randint(20, 200), color=Color.random(),
                 line=random.randint(1,10)),
             3 : FilledRectangle(x, y, random.randint(40, 200),
-                random.randint(20, 200), color=random_color())
+                random.randint(20, 200), color=Color.random())
         }[rnd]
         if self.renderer:
-            renderer.add(obj)
+            self.renderer.add(obj)

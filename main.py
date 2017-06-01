@@ -1,10 +1,15 @@
 import pyglet
-from controller.controller import Controller
+import logging
+from controller.controller import Controller, RandomObjectController
 from view.renderer import Renderer
 from model.color import Color
 
 
 def main():
+    # enable debug logging
+    logging.getLogger('Controller').setLevel(logging.DEBUG)
+    logging.getLogger('Renderer').setLevel(logging.DEBUG)
+
     # create the renderer for a window
     renderer = Renderer(800, 600)
     renderer.set_background(Color.WHITE)
@@ -18,3 +23,11 @@ def main():
     renderer.set_controller(controller)
 
     pyglet.app.run()
+
+
+
+
+
+
+
+main()

@@ -6,7 +6,10 @@ class Object:
     def __init__(self, x, y, color=Color.WHITE):
         self.x = x
         self.y = y
-        self.color = color
+        if isinstance(color, Color):
+            self.color = color.rgb()
+        else:
+            self.color = color
 
     def render(self):
         pass
@@ -24,7 +27,7 @@ class Point(Object):
 
 class FilledRectangle(Object):
     def __init__(self, x, y, width, height, color=Color.WHITE):
-        super(Rectangle, self).__init__(x, y, color)
+        super(FilledRectangle, self).__init__(x, y, color)
         self.width = width
         self.height = height
 
@@ -37,8 +40,8 @@ class FilledRectangle(Object):
                         self.x + dx, self.y - dy))
 
     def render(self):
-        color = ('c3B', self.color.rgb() * 4)
-        graphics.draw(4, gl.GL_QUADS, self.vertices(False), color)
+        color = ('c3B', self.color * 4)
+        graphics.draw(4, gl.GL_QUADS, self.vertices(), color)
 
 class Rectangle(Object):
     def __init__(self, x, y, width, height, color=Color.WHITE, line=2.0):
@@ -62,7 +65,8 @@ class Rectangle(Object):
                         self.x + dx, self.y + dy))
 
     def render(self):
-        color = ('c3B', self.color.rgb() * 8)
+        color = ('c3B', self.color * 8)
+
         gl.glLineWidth(self.lineWidth)
         graphics.draw(8, gl.GL_LINES, self.vertices(), color)
 
@@ -93,7 +97,8 @@ class Circle(CircleBase):
         self.lineWidth = line
 
     def render(self):
-        color = ('c3B', self.color.rgb() * self.points)
+        color = ('c3B', self.color * self.points)
+
         gl.glEnable(gl.GL_BLEND);
         gl.glEnable(gl.GL_LINE_SMOOTH)
         gl.glHint(gl.GL_LINE_SMOOTH_HINT, gl.GL_NICEST);
@@ -105,7 +110,8 @@ class FilledCircle(CircleBase):
         super(FilledCircle, self).__init__(x, y, radius, color, points)
 
     def render(self):
-        color = ('c3B', self.color.rgb() * self.points)
+        color = ('c3B', self.color * self.points)
+
         gl.glEnable(gl.GL_BLEND);
         gl.glEnable(gl.GL_LINE_SMOOTH)
         gl.glHint(gl.GL_LINE_SMOOTH_HINT, gl.GL_NICEST);
